@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PySimpleSale</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../data/icons/logo.svg</normaloff>../data/icons/logo.svg</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <widget class="QWidget" name="customersTab">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>../data/icons/customer.svg</normaloff>../data/icons/customer.svg</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Customers</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QPushButton" name="newCustomerBtn">
+          <property name="text">
+           <string>New</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="searchCustomerLineEdit"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="searchCustomerBtn">
+          <property name="text">
+           <string>Search</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="suppliersTab">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>../data/icons/supplier.svg</normaloff>../data/icons/supplier.svg</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Suppliers</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>New</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>Search</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="productsTab">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>../data/icons/product.svg</normaloff>../data/icons/product.svg</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Products</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="newProductBtn">
+          <property name="text">
+           <string>New</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="searchProductLineEdit"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="searchProductBtn">
+          <property name="text">
+           <string>Search</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="salesTab">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>../data/icons/sale.svg</normaloff>../data/icons/sale.svg</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Sales</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QPushButton" name="newSaleBtn">
+          <property name="text">
+           <string>New</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="searchSaleLineEdit"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="searchSaleBtn">
+          <property name="text">
+           <string>Search</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDateEdit" name="searchSaleDateEdit">
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="purchasesTab">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>../data/icons/purchase.svg</normaloff>../data/icons/purchase.svg</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Purchases</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QPushButton" name="newPurchaseBtn">
+          <property name="text">
+           <string>New</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="searchPurchaseLineEdit"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="searchPurchaseBtn">
+          <property name="text">
+           <string>Search</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDateEdit" name="searchPurchaseDateEdit"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTableView" name="tableView">
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionUnits_of_Measurement"/>
+    <addaction name="actionCountries"/>
+   </widget>
+   <addaction name="menuTools"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionEditItem">
+   <property name="text">
+    <string>Edit Item</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit Item</string>
+   </property>
+  </action>
+  <action name="actionDeleteItem">
+   <property name="text">
+    <string>Delete Item</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="actionUnits_of_Measurement">
+   <property name="text">
+    <string>Units of Measurement</string>
+   </property>
+  </action>
+  <action name="actionCountries">
+   <property name="text">
+    <string>Locations (Countries, States and Cities)</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>searchCustomerLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>searchCustomerBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>128</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>722</x>
+     <y>96</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchProductLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>searchProductBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>128</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>722</x>
+     <y>96</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>newProductBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>newProduct()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>95</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>82</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>newCustomerBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>newCustomer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>95</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>67</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>pushButton_2</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>128</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>722</x>
+     <y>96</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionEditItem</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>editItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tableView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doubleClickedTableView(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>437</x>
+     <y>247</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>798</x>
+     <y>229</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setUpTableView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>550</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>591</x>
+     <y>123</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tableView</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>customContextMenuRequestedTableView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>351</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>417</x>
+     <y>125</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDeleteItem</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>deleteItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchProductBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setUpTableView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>762</x>
+     <y>104</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>770</x>
+     <y>126</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>newProduct()</slot>
+  <slot>newCustomer()</slot>
+  <slot>doubleClickedTableView(QModelIndex)</slot>
+  <slot>setUpTableView()</slot>
+  <slot>customContextMenuRequestedTableView()</slot>
+  <slot>deleteItem()</slot>
+ </slots>
+</ui>
