@@ -2,12 +2,15 @@
 
 from PyQt5.QtWidgets import QMainWindow, QMenu, QHeaderView
 from PyQt5 import uic, QtCore
+from PyQt5.QtCore import QDate
 from PyQt5.QtSql import QSqlTableModel
 from src.productwidget import ProductWidget
 from src.sqlconnection import SqlConnection
 from src.dao.customerdao import CustomerDAO
 from src.dao.productdao import ProductDAO
 from src.customerwidget import CustomerWidget
+from src.salewidget import SaleWidget
+from src.dao.saledao import SaleDAO
 
 
 class MainWindow(QMainWindow):
@@ -17,29 +20,34 @@ class MainWindow(QMainWindow):
         self.show()
         self.conn = SqlConnection()
         self.setUpTableView()
-
-    def newProduct(self):
-        self.productWidget = ProductWidget()
-        self.productWidget.show()
+        self.searchSaleDateEdit.setDate(QDate.currentDate())
 
     def newCustomer(self):
         self.customerWidget = CustomerWidget()
         self.customerWidget.show()
 
+    def newProduct(self):
+        self.productWidget = ProductWidget()
+        self.productWidget.show()
+
+    def newSale(self):
+        self.saleWidget = SaleWidget()
+        self.saleWidget.show()
+
     def editItem(self, row):
         currentIndex = self.tabWidget.currentIndex()
         recordId = self.tableModel.index(row, 0).data()
 
-        if(currentIndex == 0):
+        if currentIndex == 0:
             dao = CustomerDAO()
             self.customerWidget = CustomerWidget()
             self.customerWidget.edit(dao.select(recordId))
             self.customerWidget.show()
 
-        elif(currentIndex == 1):
+        elif currentIndex == 1:
             pass
 
-        elif(currentIndex == 2):
+        elif currentIndex == 2:
             dao = ProductDAO()
             product = dao.select(recordId)
 
@@ -47,8 +55,14 @@ class MainWindow(QMainWindow):
             self.productWidget.edit(product)
             self.productWidget.show()
 
+        elif currentIndex == 3:
+            dao = SaleDAO()
+            self.saleWidget = SaleWidget()
+            self.saleWidget.edit(dao.select(recordId))
+            self.saleWidget.show()
+
     def deleteItem(self):
-        print("delete row")
+        pass
 
     def customContextMenuRequestedTableView(self, pos):
         contextMenu = QMenu()
@@ -94,7 +108,9 @@ class MainWindow(QMainWindow):
 
         elif(currentIndex == 2):
             self.tableModel.setTable("product")
-            self.tableModel.setFilter(" UPPER(name) LIKE UPPER('" + self.searchProductLineEdit.text() + "'||'%')")
+            self.tableModel.setFilter("UPPER(name) LIKE UPPER('" +
+                                      self.searchProductLineEdit.text() +
+                                      "'||'%')")
             columnsToHide += [2, 6, 7]
             columnsToShow += [0, 1, 3, 4, 5]
             headers += ["ID",
@@ -103,8 +119,21 @@ class MainWindow(QMainWindow):
                         "Price",
                         "Cost",
                         "Quantity"]
+
         elif(currentIndex == 3):
             self.tableModel.setTable("sale_view")
+
+            if self.searchSaleCheckBox.isChecked():
+                self.tableModel.setFilter("UPPER(name) LIKE UPPER('" +
+                                          self.searchSaleLineEdit.text() +
+                                          "'||'%')")
+            else:
+                dt = self.searchSaleDateEdit.dateTime().toString('yyyy-MM-dd')
+                self.tableModel.setFilter("UPPER(name) LIKE UPPER('" +
+                                          self.searchSaleLineEdit.text() +
+                                          "'||'%') AND datetime LIKE ('" +
+                                          dt + "%'")
+
             columnsToShow += [0, 1, 2, 3]
             headers += ["ID",
                         "Customer",

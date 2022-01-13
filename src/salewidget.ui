@@ -1,49 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>SaleWidget</class>
+ <widget class="QWidget" name="SaleWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
-    <height>507</height>
+    <width>698</width>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Sale</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="3">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Price:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="priceLineEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Product:</string>
-       </property>
-      </widget>
-     </item>
      <item row="2" column="2">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
@@ -61,19 +33,30 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="text">
+          <string>1</string>
+         </property>
         </widget>
        </item>
       </layout>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Customer:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="productLineEdit"/>
+     <item row="2" column="3">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Price:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="priceSpinBox">
+         <property name="maximum">
+          <double>9999999.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item row="2" column="4">
       <widget class="QPushButton" name="addProductBtn">
@@ -89,22 +72,105 @@
       </widget>
      </item>
      <item row="0" column="1" colspan="2">
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-     <item row="0" column="4">
-      <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+      <widget class="QLineEdit" name="customerLineEdit"/>
      </item>
      <item row="0" column="3">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>Datetime:</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="productLineEdit"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Customer:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Product:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Discount:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="discountSpinBox">
+       <property name="prefix">
+        <string>$ </string>
+       </property>
+       <property name="suffix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <double>999999.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Shipping:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3">
+      <widget class="QDoubleSpinBox" name="shippingSpinBox">
+       <property name="prefix">
+        <string>$ </string>
+       </property>
+       <property name="maximum">
+        <double>9999999.000000000000000</double>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="tableView"/>
+    <widget class="QLabel" name="totalAmountLabel">
+     <property name="font">
+      <font>
+       <pointsize>17</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>$ 0,00</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableView" name="tableView">
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -131,13 +197,21 @@
     </layout>
    </item>
   </layout>
+  <action name="actionDeleteItem">
+   <property name="text">
+    <string>Delete Item</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
   <connection>
    <sender>saveBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form</receiver>
+   <receiver>SaleWidget</receiver>
    <slot>save()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -185,7 +259,7 @@
   <connection>
    <sender>addProductBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form</receiver>
+   <receiver>SaleWidget</receiver>
    <slot>addItem()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -198,9 +272,76 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionDeleteItem</sender>
+   <signal>triggered()</signal>
+   <receiver>SaleWidget</receiver>
+   <slot>deleteItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>251</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>productLineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SaleWidget</receiver>
+   <slot>selectProduct()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>137</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>419</x>
+     <y>103</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>discountSpinBox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>SaleWidget</receiver>
+   <slot>updateTotalAmount()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>211</x>
+     <y>86</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>259</x>
+     <y>107</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>shippingSpinBox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>SaleWidget</receiver>
+   <slot>updateTotalAmount()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>544</x>
+     <y>90</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>598</x>
+     <y>102</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
   <slot>addItem()</slot>
+  <slot>deleteItem()</slot>
+  <slot>selectProduct()</slot>
+  <slot>updateTotalAmount()</slot>
  </slots>
 </ui>

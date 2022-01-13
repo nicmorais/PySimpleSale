@@ -31,8 +31,40 @@ class SaleDAO:
         query.exec()
         products = []
         while query.next():
-            products += SaleProduct(query.value("sale_product_id"),
-                                    query.value("price"),
-                                    query.value("quantity"),
-                                    query.value("product_id"))
+            products.append(SaleProduct(query.value("sale_product_id"),
+                            query.value("price"),
+                            query.value("quantity"),
+                            query.value("product_id"),
+                            saleId))
         return products
+
+    def insert(self, sale):
+        query = QSqlQuery()
+        query.prepare("INSERT INTO sale (customer_id,"
+                      "amount, discount, shipping, datetime) "
+                      "VALUES (:customerId, :amount, :discount,"
+                      ":shipping, :datetime) RETURNING sale_id")
+        query.bindValue(":customerId", sale.customerId)
+        query.bindValue(":amount", sale.amount)
+        query.bindValue(":discount", sale.discount)
+        query.bindValue(":shipping", sale.shipping)
+        query.bindValue(":datetime", sale.datetime)
+        query.exec()
+        if query.next():
+            return query.value("sale_id")
+
+    def update(self, sale):
+        query = QSqlQuery()
+        query.prepare("UPDATE sale SET customer_id = :customerId,"
+                      "amount = :amount,"
+                      "discount = :discount,"
+                      "shipping = :shipping,"
+                      "datetime = :datetime "
+                      "WHERE sale_id = :saleId")
+        query.bindValue(":customerId", sale.customerId)
+        query.bindValue(":amount", sale.amount)
+        query.bindValue(":discount", sale.discount)
+        query.bindValue(":shipping", sale.shipping)
+        query.bindValue(":datetime", sale.datetime)
+        query.bindValue(":saleId", sale.id)
+        return query.exec()

@@ -31,7 +31,30 @@ class CustomerDAO:
                             query.value("city_id"))
 
     def insert(self, customer):
-        pass
+        query = QSqlQuery()
+        query.prepare("INSERT INTO customer (name,"
+                      "address_line1,"
+                      "address_line2,"
+                      "zipcode,"
+                      "email,"
+                      "phone_number,"
+                      "city_id) "
+                      "VALUES (:name,"
+                      ":addressLine1,"
+                      ":addressLine2,"
+                      ":zipcode,"
+                      ":email,"
+                      ":phoneNumber,"
+                      ":cityId)")
+
+        query.bindValue(":name", customer.name)
+        query.bindValue(":addressLine1", customer.addressLine1)
+        query.bindValue(":addressLine2", customer.addressLine2)
+        query.bindValue(":zipcode", customer.zipcode)
+        query.bindValue(":email", customer.email)
+        query.bindValue(":phoneNumber", customer.phoneNumber)
+        query.bindValue(":cityId", customer.cityId)
+        return query.exec()
 
     def update(self, customer):
         query = QSqlQuery()

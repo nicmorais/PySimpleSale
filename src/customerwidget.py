@@ -14,6 +14,7 @@ class CustomerWidget(QWidget):
         uic.loadUi('src/customerwidget.ui', self)
         self.mode = "new"
         self.setCountryModel()
+        self.customerId = 0
 
     def edit(self, customer):
         self.mode = "edit"
@@ -47,7 +48,7 @@ class CustomerWidget(QWidget):
         if self.mode == "new":
             saveFunction = dao.insert
         cityCurrentIndex = self.cityComboBox.currentIndex()
-        cityId = self.cityModel.index(cityCurrentIndex, 0).data()
+        cityId = self.cityModel.index(cityCurrentIndex, 0).data(QtCore.Qt.DisplayRole)
 
         saveFunction(Customer(self.customerId,
                               self.nameLineEdit.text(),
@@ -69,6 +70,9 @@ class CustomerWidget(QWidget):
     def setStateModel(self):
         self.stateModel = QSqlTableModel()
         self.stateModel.setTable("state")
+        currentIndex = self.countryComboBox.currentIndex()
+        countryId = self.countryModel.index(currentIndex, 0).data()
+        self.stateModel.setFilter("country_id = " + str(countryId))
         self.stateModel.select()
         self.stateComboBox.setModel(self.stateModel)
         self.stateComboBox.setModelColumn(1)
@@ -76,6 +80,9 @@ class CustomerWidget(QWidget):
     def setCityModel(self):
         self.cityModel = QSqlTableModel()
         self.cityModel.setTable("city")
+        currentIndex = self.stateComboBox.currentIndex()
+        stateId = self.stateModel.index(currentIndex, 0).data()
+        self.cityModel.setFilter("state_id = " + str(stateId))
         self.cityModel.select()
         self.cityComboBox.setModel(self.cityModel)
         self.cityComboBox.setModelColumn(1)

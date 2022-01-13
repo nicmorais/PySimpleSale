@@ -147,6 +147,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="searchSaleCheckBox">
+          <property name="text">
+           <string>Any Date</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QDateEdit" name="searchSaleDateEdit">
           <property name="calendarPopup">
            <bool>true</bool>
@@ -424,12 +431,44 @@
    <slot>setUpTableView()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>762</x>
-     <y>104</y>
+     <x>722</x>
+     <y>96</y>
     </hint>
     <hint type="destinationlabel">
      <x>770</x>
      <y>126</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>newSaleBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>newSale()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>31</x>
+     <y>95</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>69</x>
+     <y>636</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchSaleCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setUpTableView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>629</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>620</x>
+     <y>647</y>
     </hint>
    </hints>
   </connection>
@@ -441,5 +480,6 @@
   <slot>setUpTableView()</slot>
   <slot>customContextMenuRequestedTableView()</slot>
   <slot>deleteItem()</slot>
+  <slot>newSale()</slot>
  </slots>
 </ui>
