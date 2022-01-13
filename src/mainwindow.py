@@ -132,7 +132,7 @@ class MainWindow(QMainWindow):
                 self.tableModel.setFilter("UPPER(name) LIKE UPPER('" +
                                           self.searchSaleLineEdit.text() +
                                           "'||'%') AND datetime LIKE ('" +
-                                          dt + "%'")
+                                          dt + "'||'%')")
 
             columnsToShow += [0, 1, 2, 3]
             headers += ["ID",

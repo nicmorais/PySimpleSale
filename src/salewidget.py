@@ -109,13 +109,13 @@ class SaleWidget(QtWidgets.QWidget):
 
     def save(self):
         saleDao = SaleDAO()
-        customerId = self.customerCompleter.popup().currentIndex().siblingAtColumn(0).data()
         amount = self.getTotalAmount()
         discount = self.discountSpinBox.value()
         shipping = self.shippingSpinBox.value()
         datetime = self.dateTimeEdit.dateTime().toString('yyyy-MM-dd HH:mm:ss')
 
         if self.mode == "new":
+            customerId = self.customerCompleter.popup().currentIndex().siblingAtColumn(0).data()
             self.saleId = saleDao.insert(Sale(None,
                                               customerId,
                                               amount,
@@ -123,6 +123,7 @@ class SaleWidget(QtWidgets.QWidget):
                                               shipping,
                                               datetime))
         else:
+            customerId = self.customerCompleter.currentIndex().siblingAtColumn(0).data()
             saleDao.update(Sale(self.saleId,
                                 customerId,
                                 amount,
@@ -139,6 +140,8 @@ class SaleWidget(QtWidgets.QWidget):
                 self.updateRow(row)
             else:
                 self.deleteRow(row)
+
+        self.close()
 
     def insertRow(self, row):
         dao = SaleProductDAO()
