@@ -1,12 +1,12 @@
 # This Python file uses the following encoding: utf-8
-from PyQt5.QtSql import QSqlQuery
+from PyQt5.QtSql import QSqlQuery, QSqlError
 from src.entity.sale import Sale
 from src.entity.saleproduct import SaleProduct
 
 
 class SaleDAO:
     def __init__(self):
-        pass
+        self.lastError = QSqlError()
 
     def select(self, saleId):
         query = QSqlQuery()
@@ -50,6 +50,7 @@ class SaleDAO:
         query.bindValue(":shipping", sale.shipping)
         query.bindValue(":datetime", sale.datetime)
         query.exec()
+        self.lastError = query.lastError()
         if query.next():
             return query.value("sale_id")
 
@@ -67,4 +68,20 @@ class SaleDAO:
         query.bindValue(":shipping", sale.shipping)
         query.bindValue(":datetime", sale.datetime)
         query.bindValue(":saleId", sale.id)
-        return query.exec()
+        success = query.exec()
+        self.lastError = query.lastError()
+        return success
+
+    def delete(self, sale):
+        saleId = 0
+        if type(sale) == Sale:
+            saleId = sale.id
+        else:
+            saleId = sale
+
+        query = QSqlQuery()
+        query.prepare("DELETE FROM sale WHERE sale_id = :saleId")
+        query.bindValue(":saleId", saleId)
+        success = query.exec()
+        self.lastError = query.lastError()
+        return success

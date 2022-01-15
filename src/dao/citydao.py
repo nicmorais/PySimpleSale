@@ -17,3 +17,12 @@ class CityDAO:
             return City(cityId,
                         query.value("name"),
                         query.value("state_id"))
+
+    def count(self):
+        count = 0
+        query = QSqlQuery()
+        query.prepare("SELECT COUNT(*) FROM city")
+        query.exec()
+        query.next()
+        count = query.value(0)
+        return count

@@ -1,11 +1,13 @@
 # This Python file uses the following encoding: utf-8
-from PyQt5.QtSql import QSqlQuery
+from PyQt5.QtSql import QSqlQuery, QSqlError
 from src.entity.customer import Customer
+from src.dao.dao import DAO
 
 
-class CustomerDAO:
+class CustomerDAO(DAO):
     def __init__(self):
         pass
+#        self.lastError = QSqlError()
 
     def select(self, customerId):
         query = QSqlQuery()
@@ -54,7 +56,9 @@ class CustomerDAO:
         query.bindValue(":email", customer.email)
         query.bindValue(":phoneNumber", customer.phoneNumber)
         query.bindValue(":cityId", customer.cityId)
-        return query.exec()
+        success = query.exec()
+        self.lastError = query.lastError()
+        return success
 
     def update(self, customer):
         query = QSqlQuery()
@@ -74,4 +78,20 @@ class CustomerDAO:
         query.bindValue(":phoneNumber", customer.phoneNumber)
         query.bindValue(":cityId", customer.cityId)
         query.bindValue(":customerId", customer.id)
-        return query.exec()
+        success = query.exec()
+        self.lastError = query.lastError()
+        return success
+
+    def delete(self, customer):
+        customerId = 0
+        if type(customer) == Customer:
+            customerId = customer.id
+        else:
+            customerId = customer
+
+        query = QSqlQuery()
+        query.prepare("DELETE FROM customer WHERE customer_id = :customerId")
+        query.bindValue(":customerId", customerId)
+        success = query.exec()
+        self.lastError = query.lastError()
+        return success

@@ -81,10 +81,10 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="searchSupplierLineEdit"/>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="searchSupplierBtn">
           <property name="text">
            <string>Search</string>
           </property>
@@ -229,8 +229,10 @@
     <property name="title">
      <string>Tools</string>
     </property>
-    <addaction name="actionUnits_of_Measurement"/>
+    <addaction name="actionReports"/>
     <addaction name="actionCountries"/>
+    <addaction name="actionStates"/>
+    <addaction name="actionCities"/>
    </widget>
    <addaction name="menuTools"/>
   </widget>
@@ -251,14 +253,24 @@
     <string>Del</string>
    </property>
   </action>
-  <action name="actionUnits_of_Measurement">
+  <action name="actionReports">
    <property name="text">
-    <string>Units of Measurement</string>
+    <string>Reports</string>
    </property>
   </action>
   <action name="actionCountries">
    <property name="text">
-    <string>Locations (Countries, States and Cities)</string>
+    <string>Countries</string>
+   </property>
+  </action>
+  <action name="actionStates">
+   <property name="text">
+    <string>States</string>
+   </property>
+  </action>
+  <action name="actionCities">
+   <property name="text">
+    <string>Cities</string>
    </property>
   </action>
  </widget>
@@ -329,9 +341,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>lineEdit</sender>
+   <sender>searchSupplierLineEdit</sender>
    <signal>returnPressed()</signal>
-   <receiver>pushButton_2</receiver>
+   <receiver>searchSupplierBtn</receiver>
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -463,12 +475,108 @@
    <slot>setUpTableView()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>629</x>
-     <y>96</y>
+     <x>618</x>
+     <y>97</y>
     </hint>
     <hint type="destinationlabel">
      <x>620</x>
      <y>647</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchSaleDateEdit</sender>
+   <signal>dateChanged(QDate)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setUpTableView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>699</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>719</x>
+     <y>664</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>newSupplier()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>53</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>80</x>
+     <y>650</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionReports</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openReports()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCountries</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openCountries()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionStates</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openStates()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchSupplierBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setUpTableView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>751</x>
+     <y>97</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>751</x>
+     <y>573</y>
     </hint>
    </hints>
   </connection>
@@ -481,5 +589,10 @@
   <slot>customContextMenuRequestedTableView()</slot>
   <slot>deleteItem()</slot>
   <slot>newSale()</slot>
+  <slot>newSupplier()</slot>
+  <slot>openReports()</slot>
+  <slot>openCountries()</slot>
+  <slot>openStates()</slot>
+  <slot>openCities()</slot>
  </slots>
 </ui>

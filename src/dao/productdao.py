@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-from PyQt5.QtSql import QSqlQuery
+from PyQt5.QtSql import QSqlQuery, QSqlError
 from src.entity.product import Product
 
 
@@ -44,7 +44,9 @@ class ProductDAO:
         query.bindValue(":quantity", product.quantity)
         query.bindValue(":barcode", product.barcode)
         query.bindValue(":unitId", product.unitId)
-        return query.exec()
+        success = query.exec()
+        self.lastError = query.lastError()
+        return success
 
     def update(self, product):
         query = QSqlQuery()
@@ -64,4 +66,20 @@ class ProductDAO:
         query.bindValue(":barcode", product.barcode)
         query.bindValue(":unitId", product.unitId)
         query.bindValue(":productId", product.id)
-        return query.exec()
+        success = query.exec()
+        self.lastError = query.lastError()
+        return success
+
+    def delete(self, product):
+        productId = 0
+        if type(product) == Product:
+            product = product.id
+        else:
+            productId = product
+
+        query = QSqlQuery()
+        query.prepare("DELETE FROM product WHERE product_id = :productId")
+        query.bindValue(":productId", productId)
+        success = query.exec()
+        self.lastError = query.lastError()
+        return success

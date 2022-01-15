@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QComboBox" name="countryComboBox"/>
+   </item>
+   <item>
+    <widget class="QPushButton" name="newStateBtn">
+     <property name="text">
+      <string>New</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableView" name="tableView"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>countryComboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>Form</receiver>
+   <slot>updateTable()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>304</x>
+     <y>27</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>393</x>
+     <y>86</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>newStateBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>newState()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>238</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>392</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>updateTable()</slot>
+  <slot>newState()</slot>
+ </slots>
+</ui>

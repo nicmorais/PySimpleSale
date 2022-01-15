@@ -1,16 +1,23 @@
 # This Python file uses the following encoding: utf-8
 
-from PyQt5.QtWidgets import QMainWindow, QMenu, QHeaderView
+from PyQt5.QtWidgets import QMainWindow, QMenu, QHeaderView, QMessageBox
 from PyQt5 import uic, QtCore
-from PyQt5.QtCore import QDate
+from PyQt5.QtCore import QDate, pyqtSlot
 from PyQt5.QtSql import QSqlTableModel
 from src.productwidget import ProductWidget
 from src.sqlconnection import SqlConnection
 from src.dao.customerdao import CustomerDAO
 from src.dao.productdao import ProductDAO
+from src.dao.countrydao import CountryDAO
+from src.dao.statedao import StateDAO
 from src.customerwidget import CustomerWidget
 from src.salewidget import SaleWidget
 from src.dao.saledao import SaleDAO
+from src.supplierwidget import SupplierWidget
+from src.dao.supplierdao import SupplierDAO
+from src.reportswidget import ReportsWidget
+from src.countrieswidget import CountriesWidget
+from src.stateswidget import StatesWidget
 
 
 class MainWindow(QMainWindow):
@@ -32,7 +39,12 @@ class MainWindow(QMainWindow):
 
     def newSale(self):
         self.saleWidget = SaleWidget()
+        self.saleWidget.saleUpserted.connect(self.setUpTableView)
         self.saleWidget.show()
+
+    def newSupplier(self):
+        self.suplierWidget = SupplierWidget()
+        self.suplierWidget.show()
 
     def editItem(self, row):
         currentIndex = self.tabWidget.currentIndex()
@@ -42,10 +54,15 @@ class MainWindow(QMainWindow):
             dao = CustomerDAO()
             self.customerWidget = CustomerWidget()
             self.customerWidget.edit(dao.select(recordId))
+            self.customerWidget.customerUpserted.connect(self.setUpTableView)
             self.customerWidget.show()
 
         elif currentIndex == 1:
-            pass
+            dao = SupplierDAO()
+            self.supplierWidget = SupplierWidget()
+            self.supplierWidget.edit(dao.select(recordId))
+            self.supplierWidget.supplierUpserted.connect(self.setUpTableView)
+            self.supplierWidget.show()
 
         elif currentIndex == 2:
             dao = ProductDAO()
@@ -53,16 +70,56 @@ class MainWindow(QMainWindow):
 
             self.productWidget = ProductWidget()
             self.productWidget.edit(product)
+            self.productWidget.productUpserted.connect(self.setUpTableView)
             self.productWidget.show()
 
         elif currentIndex == 3:
             dao = SaleDAO()
             self.saleWidget = SaleWidget()
             self.saleWidget.edit(dao.select(recordId))
+            self.saleWidget.saleUpserted.connect(self.setUpTableView)
             self.saleWidget.show()
 
     def deleteItem(self):
-        pass
+        currentIndex = self.tabWidget.currentIndex()
+        row = self.tableView.selectionModel().selectedRows()[0].row()
+        recordId = self.tableModel.index(row, 0).data()
+
+        message = QMessageBox()
+        message.setWindowTitle("Delete item")
+        message.setText("Are you sure?")
+        message.addButton("Yes", QMessageBox.AcceptRole)
+        message.addButton("No", QMessageBox.RejectRole)
+
+        if(message.exec() == QMessageBox.RejectRole):
+            return
+
+        dao = None
+        success = True
+
+        if currentIndex == 0:
+            dao = CustomerDAO()
+            success = dao.delete(recordId)
+
+        elif currentIndex == 1:
+            dao = SupplierDAO()
+            success = dao.delete(recordId)
+
+        elif currentIndex == 2:
+            dao = ProductDAO()
+            success = dao.delete(recordId)
+
+        elif currentIndex == 3:
+            dao = SaleDAO()
+            success = dao.delete(recordId)
+
+        self.setUpTableView()
+        if not success:
+            error = dao.lastError.driverText
+            errorMessage = QMessageBox()
+            errorMessage.setWindowTitle("Error")
+            errorMessage.setText("Could not delete item: " + error)
+            errorMessage.exec()
 
     def customContextMenuRequestedTableView(self, pos):
         contextMenu = QMenu()
@@ -73,8 +130,9 @@ class MainWindow(QMainWindow):
     def doubleClickedTableView(self, modelIndex):
         self.editItem(modelIndex.row())
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def setUpTableView(self):
+        scrollValue = self.tableView.verticalScrollBar().value()
         self.tableModel = QSqlTableModel()
         currentIndex = self.tabWidget.currentIndex()
 
@@ -96,6 +154,9 @@ class MainWindow(QMainWindow):
 
         elif(currentIndex == 1):
             self.tableModel.setTable("supplier")
+            self.tableModel.setFilter("UPPER(name) LIKE UPPER('" +
+                                      self.searchSupplierLineEdit.text() +
+                                      "'||'%')")
             columnsToHide += [2, 3, 4]
             columnsToShow += [0, 1, 5, 6]
             headers += ["ID",
@@ -142,6 +203,10 @@ class MainWindow(QMainWindow):
 
         elif(currentIndex == 4):
             self.tableModel.setTable("purchase_view")
+            self.tableModel.setFilter("UPPER(name) LIKE UPPER(" +
+                                      self.searchPurchaseLineEdit.text() +
+                                      "'||'%')")
+
             columnsToShow += [0, 1, 2, 3]
             headers += ["ID",
                         "Supplier",
@@ -165,3 +230,38 @@ class MainWindow(QMainWindow):
             self.tableView.showColumn(column)
 
         self.tableView.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
+        self.tableView.verticalScrollBar().setValue(scrollValue)
+
+    def openReports(self):
+        self.reportsWidget = ReportsWidget()
+        self.reportsWidget.show()
+
+    def openCountries(self):
+        self.countriesWidget = CountriesWidget()
+        self.countriesWidget.show()
+
+    def openStates(self):
+        dao = CountryDAO()
+        countryCount = dao.count()
+
+        if(countryCount == 0):
+            errorMessage = QMessageBox()
+            errorMessage.setWindowTitle("Error")
+            errorMessage.setText("Error: no countries were found in the database.")
+            errorMessage.exec()
+        else:
+            self.statesWidget = StatesWidget()
+            self.statesWidget.show()
+
+    def openCities(self):
+        dao = StateDAO()
+        stateCount = dao.count()
+
+        if(stateCount == 0):
+            errorMessage = QMessageBox()
+            errorMessage.setWindowTitle("Error")
+            errorMessage.setText("Error: no states were found in the database.")
+            errorMessage.exec()
+        else:
+            pass
+

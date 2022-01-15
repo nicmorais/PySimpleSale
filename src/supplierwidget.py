@@ -1,42 +1,38 @@
 # This Python file uses the following encoding: utf-8
-from PyQt5 import uic, QtCore
-from PyQt5.QtWidgets import QWidget, QMessageBox
-from PyQt5.QtSql import QSqlTableModel
+from PyQt5 import QtWidgets, QtCore, uic
 from PyQt5.QtCore import pyqtSignal
-from src.entity.customer import Customer
-from src.dao.customerdao import CustomerDAO
+from src.dao.supplierdao import SupplierDAO
 from src.dao.statedao import StateDAO
 from src.dao.citydao import CityDAO
+from PyQt5.QtSql import QSqlTableModel
+from src.entity.supplier import Supplier
 
 
-class CustomerWidget(QWidget):
-    customerUpserted = pyqtSignal()
+class SupplierWidget(QtWidgets.QWidget):
+    supplierUpserted = pyqtSignal()
 
     def __init__(self):
-        super(CustomerWidget, self).__init__()
-        uic.loadUi('src/customerwidget.ui', self)
+        super(SupplierWidget, self).__init__()
+        uic.loadUi('src/supplierwidget.ui', self)
         self.mode = "new"
         self.setCountryModel()
-        self.customerId = 0
+        self.supplierId = 0
 
-    def edit(self, customer):
+    def edit(self, supplier):
         self.mode = "edit"
-        self.customerId = customer.id
-        self.nameLineEdit.setText(customer.name)
-        self.addressLine1LineEdit.setText(customer.addressLine1)
-        self.addressLine2LineEdit.setText(customer.addressLine2)
-        self.zipcodeLineEdit.setText(customer.zipcode)
-        self.emailLineEdit.setText(customer.email)
-        self.phoneNumberLineEdit.setText(str(customer.phoneNumber))
+        self.supplierId = supplier.id
+        self.nameLineEdit.setText(supplier.name)
+        self.addressLine1LineEdit.setText(supplier.addressLine1)
+        self.addressLine2LineEdit.setText(supplier.addressLine2)
 
         stateDao = StateDAO()
         cityDao = CityDAO()
 
-        stateId = cityDao.select(customer.cityId).stateId
+        stateId = cityDao.select(supplier.cityId).stateId
         stateDao = StateDAO()
         state = stateDao.select(stateId)
         cityDao = CityDAO()
-        city = cityDao.select(customer.cityId)
+        city = cityDao.select(supplier.cityId)
         countryId = stateDao.select(stateId).countryId
         self.countryComboBox.setCurrentIndex(countryId - 1)
         stateIndex = self.stateComboBox.findData(state.name, QtCore.Qt.DisplayRole)
@@ -44,31 +40,28 @@ class CustomerWidget(QWidget):
         cityIndex = self.cityComboBox.findData(city.name, QtCore.Qt.DisplayRole)
         self.cityComboBox.setCurrentIndex(cityIndex)
 
+        self.emailLineEdit.setText(supplier.email)
+        self.phoneNumberLineEdit.setText(str(supplier.phoneNumber))
+
     def save(self):
-        dao = CustomerDAO()
+        dao = SupplierDAO()
         saveFunction = dao.update
 
         if self.mode == "new":
             saveFunction = dao.insert
+
         cityCurrentIndex = self.cityComboBox.currentIndex()
         cityId = self.cityModel.index(cityCurrentIndex, 0).data(QtCore.Qt.DisplayRole)
 
-        success = saveFunction(Customer(self.customerId,
-                                        self.nameLineEdit.text(),
-                                        self.addressLine1LineEdit.text(),
-                                        self.addressLine2LineEdit.text(),
-                                        self.zipcodeLineEdit.text(),
-                                        self.emailLineEdit.text(),
-                                        self.phoneNumberLineEdit.text(),
-                                        cityId))
-        if success:
-            self.customerUpserted.emit()
-            self.close()
-        else:
-            errorMessage = QMessageBox()
-            errorMessage.setWindowTitle("Error")
-            errorMessage.setText("Could not salve costumer: " + dao.lastError.driverText())
-            errorMessage.exec()
+        saveFunction(Supplier(self.supplierId,
+                              self.nameLineEdit.text(),
+                              self.addressLine1LineEdit.text(),
+                              self.addressLine2LineEdit.text(),
+                              cityId,
+                              self.emailLineEdit.text(),
+                              self.phoneNumberLineEdit.text()))
+        self.supplierUpserted.emit()
+        self.close()
 
     def setCountryModel(self):
         self.countryModel = QSqlTableModel()

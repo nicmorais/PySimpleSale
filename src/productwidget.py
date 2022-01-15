@@ -10,6 +10,8 @@ from src.unitwidget import UnitWidget
 
 
 class ProductWidget(QtWidgets.QWidget):
+    productUpserted = pyqtSignal()
+
     def __init__(self):
         super(ProductWidget, self).__init__()
         uic.loadUi('src/productwidget.ui', self)
@@ -20,9 +22,9 @@ class ProductWidget(QtWidgets.QWidget):
         self.unitComboBox.setModel(self.unitModel)
         self.unitComboBox.setModelColumn(2)
         self.productId = None
-        self.productUpserted = pyqtSignal()
 
     def edit(self, product):
+        self.mode = "edit"
         self.productId = product.id
         self.nameLineEdit.setText(product.name)
         self.descriptionLineEdit.setText(product.description)
@@ -30,7 +32,6 @@ class ProductWidget(QtWidgets.QWidget):
         self.costSpinBox.setValue(product.cost)
         self.quantitySpinBox.setValue(product.quantity)
         self.barcodeLineEdit.setText(product.barcode)
-        self.mode = "edit"
         dao = UnitDAO()
         abbr = dao.select(product.unitId).abbreviation
         unitIndex = self.unitComboBox.findData(abbr, QtCore.Qt.DisplayRole)
@@ -54,6 +55,7 @@ class ProductWidget(QtWidgets.QWidget):
                              self.quantitySpinBox.value(),
                              self.barcodeLineEdit.text(),
                              self.unitModel.index(unitCurrentIndex, 0).data()))
+        self.productUpserted.emit()
         self.close()
 
     def cancel(self):

@@ -1,6 +1,6 @@
 # This Python file uses the following encoding: utf-8
 from PyQt5 import QtCore, uic, QtWidgets
-from PyQt5.QtCore import QDateTime
+from PyQt5.QtCore import QDateTime, pyqtSignal
 from PyQt5.QtWidgets import QCompleter, QHeaderView, QStyledItemDelegate
 from PyQt5.QtSql import QSqlTableModel
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
@@ -10,9 +10,12 @@ from src.dao.productdao import ProductDAO
 from src.dao.customerdao import CustomerDAO
 from src.entity.saleproduct import SaleProduct
 from src.entity.sale import Sale
+from src.noteditabledelegate import NotEditableDelegate
 
 
 class SaleWidget(QtWidgets.QWidget):
+    saleUpserted = pyqtSignal()
+
     def __init__(self):
         super(SaleWidget, self).__init__()
         uic.loadUi('src/salewidget.ui', self)
@@ -46,6 +49,11 @@ class SaleWidget(QtWidgets.QWidget):
         self.delegate = QStyledItemDelegate()
         self.tableView.setItemDelegateForColumn(2, self.delegate)
         self.tableView.itemDelegateForColumn(2).closeEditor.connect(self.updateProductsTotals)
+
+        self.notEditableDelegate = NotEditableDelegate()
+        self.tableView.setItemDelegateForColumn(0, self.notEditableDelegate)
+        self.tableView.setItemDelegateForColumn(1, self.notEditableDelegate)
+        self.tableView.setItemDelegateForColumn(4, self.notEditableDelegate)
 
         headerLabels = ["Product ID",
                         "Name",
@@ -140,7 +148,7 @@ class SaleWidget(QtWidgets.QWidget):
                 self.updateRow(row)
             else:
                 self.deleteRow(row)
-
+        self.saleUpserted.emit()
         self.close()
 
     def insertRow(self, row):

@@ -4,6 +4,10 @@ A simple sale management software made with PyQt5 and SQLite.
 
 ![](https://i.imgur.com/4kdlkBV.png)
 
+### Database Design
+
+![](https://i.imgur.com/IXEuZYU.png)
+
 ### Running
 
 1. Install PyQt5
