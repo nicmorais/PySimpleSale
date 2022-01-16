@@ -41,3 +41,14 @@ class StateDAO:
         query.next()
         count = query.value(0)
         return count
+
+    def insert(self, state):
+        query = QSqlQuery()
+        query.prepare("INSERT INTO state (name, code, country_id) "
+                      "VALUES (:name, :code, :countryId)")
+        query.bindValue(":name", state.name)
+        query.bindValue(":code", state.code)
+        query.bindValue(":countryId", state.countryId)
+        success = query.exec()
+        self.lastError = query.lastError()
+        return success

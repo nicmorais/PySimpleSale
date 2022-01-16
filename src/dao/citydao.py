@@ -26,3 +26,19 @@ class CityDAO:
         query.next()
         count = query.value(0)
         return count
+
+    def insert(self, city):
+        query = QSqlQuery()
+        query.prepare("INSERT INTO city (name, "
+                      "state_id) VALUES (:name,"
+                      ":stateId)")
+        query.bindValue(":name", city.name)
+        query.bindValue(":stateId", city.stateId)
+        query.exec()
+
+    def update(self, city):
+        query = QSqlQuery()
+        query.prepare("UPDATE city SET name = :name "
+                      "WHERE city_id = :cityId")
+        query.bindValue(":cityId", city.id)
+        query.exec()

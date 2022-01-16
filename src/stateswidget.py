@@ -2,6 +2,7 @@
 from PyQt5 import uic, QtWidgets, QtCore
 from PyQt5.QtSql import QSqlTableModel
 from PyQt5.QtWidgets import QHeaderView
+from src.statewidget import StateWidget
 
 
 class StatesWidget(QtWidgets.QWidget):
@@ -40,4 +41,9 @@ class StatesWidget(QtWidgets.QWidget):
         self.tableView.hideColumn(3)
 
     def newState(self):
-        pass
+        countryIndex = self.countryComboBox.currentIndex()
+        countryId = self.countryModel.index(countryIndex, 0).data()
+        self.stateWidget = StateWidget()
+        self.stateWidget.setCountry(countryId)
+        self.stateWidget.stateUpserted.connect(self.updateTable)
+        self.stateWidget.show()

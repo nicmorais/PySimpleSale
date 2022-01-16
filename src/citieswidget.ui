@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>CitiesWidget</class>
+ <widget class="QWidget" name="CitiesWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,14 +11,17 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>States</string>
+   <string>Cities</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QComboBox" name="countryComboBox"/>
    </item>
    <item>
-    <widget class="QPushButton" name="newStateBtn">
+    <widget class="QComboBox" name="stateComboBox"/>
+   </item>
+   <item>
+    <widget class="QPushButton" name="newCityBtn">
      <property name="text">
       <string>New</string>
      </property>
@@ -34,38 +37,55 @@
   <connection>
    <sender>countryComboBox</sender>
    <signal>currentIndexChanged(int)</signal>
-   <receiver>Form</receiver>
-   <slot>updateTable()</slot>
+   <receiver>CitiesWidget</receiver>
+   <slot>setState()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>304</x>
-     <y>27</y>
+     <x>281</x>
+     <y>22</y>
     </hint>
     <hint type="destinationlabel">
-     <x>393</x>
-     <y>86</y>
+     <x>395</x>
+     <y>74</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>newStateBtn</sender>
+   <sender>newCityBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form</receiver>
-   <slot>newState()</slot>
+   <receiver>CitiesWidget</receiver>
+   <slot>newCity()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>238</x>
-     <y>55</y>
+     <x>258</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
-     <x>392</x>
-     <y>148</y>
+     <x>395</x>
+     <y>119</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stateComboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>CitiesWidget</receiver>
+   <slot>updateTable()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>233</x>
+     <y>54</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>396</x>
+     <y>200</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
+  <slot>setState()</slot>
+  <slot>newCity()</slot>
   <slot>updateTable()</slot>
-  <slot>newState()</slot>
  </slots>
 </ui>

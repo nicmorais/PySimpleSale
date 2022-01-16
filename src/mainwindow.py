@@ -18,6 +18,7 @@ from src.dao.supplierdao import SupplierDAO
 from src.reportswidget import ReportsWidget
 from src.countrieswidget import CountriesWidget
 from src.stateswidget import StatesWidget
+from src.citieswidget import CitiesWidget
 
 
 class MainWindow(QMainWindow):
@@ -263,5 +264,6 @@ class MainWindow(QMainWindow):
             errorMessage.setText("Error: no states were found in the database.")
             errorMessage.exec()
         else:
-            pass
+            self.citiesWidget = CitiesWidget()
+            self.citiesWidget.show()
 
