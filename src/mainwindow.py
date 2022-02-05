@@ -19,6 +19,8 @@ from src.reportswidget import ReportsWidget
 from src.countrieswidget import CountriesWidget
 from src.stateswidget import StatesWidget
 from src.citieswidget import CitiesWidget
+from src.unitswidget import UnitsWidget
+from src.settingswidget import SettingsWidget
 
 
 class MainWindow(QMainWindow):
@@ -140,9 +142,11 @@ class MainWindow(QMainWindow):
         columnsToHide = []
         columnsToShow = []
         headers = []
-
+        filter = ""
         if(currentIndex == 0):
             self.tableModel.setTable("customer")
+            filter = "UPPER(name) LIKE UPPER ('{0}'||'%')"
+            filter = filter.format(self.searchCustomerLineEdit.text())
             columnsToHide += [2, 3, 4, 7]
             columnsToShow += [0, 1, 8]
             headers += ["ID",
@@ -155,9 +159,8 @@ class MainWindow(QMainWindow):
 
         elif(currentIndex == 1):
             self.tableModel.setTable("supplier")
-            self.tableModel.setFilter("UPPER(name) LIKE UPPER('" +
-                                      self.searchSupplierLineEdit.text() +
-                                      "'||'%')")
+            filter = "UPPER(name) LIKE UPPER('{0}'||'%')"
+            filter = filter.format(self.searchSupplierLineEdit.text())
             columnsToHide += [2, 3, 4]
             columnsToShow += [0, 1, 5, 6]
             headers += ["ID",
@@ -170,9 +173,8 @@ class MainWindow(QMainWindow):
 
         elif(currentIndex == 2):
             self.tableModel.setTable("product")
-            self.tableModel.setFilter("UPPER(name) LIKE UPPER('" +
-                                      self.searchProductLineEdit.text() +
-                                      "'||'%')")
+            filter = "UPPER(name) LIKE UPPER('{0}'||'%')"
+            filter = filter.format(self.searchProductLineEdit.text())
             columnsToHide += [2, 6, 7]
             columnsToShow += [0, 1, 3, 4, 5]
             headers += ["ID",
@@ -186,16 +188,13 @@ class MainWindow(QMainWindow):
             self.tableModel.setTable("sale_view")
 
             if self.searchSaleCheckBox.isChecked():
-                self.tableModel.setFilter("UPPER(name) LIKE UPPER('" +
-                                          self.searchSaleLineEdit.text() +
-                                          "'||'%')")
+                filter = "UPPER(name) LIKE UPPER('{0}'||'%')"
+                filter = filter.format(self.searchSaleLineEdit.text())
             else:
                 dt = self.searchSaleDateEdit.dateTime().toString('yyyy-MM-dd')
-                self.tableModel.setFilter("UPPER(name) LIKE UPPER('" +
-                                          self.searchSaleLineEdit.text() +
-                                          "'||'%') AND datetime LIKE ('" +
-                                          dt + "'||'%')")
-
+                filter = ("UPPER(name) LIKE UPPER('{0}'||'%') "
+                          "AND datetime LIKE ('{1}'||'%')")
+                filter = filter.format(self.searchSaleLineEdit.text(), dt)
             columnsToShow += [0, 1, 2, 3]
             headers += ["ID",
                         "Customer",
@@ -204,9 +203,8 @@ class MainWindow(QMainWindow):
 
         elif(currentIndex == 4):
             self.tableModel.setTable("purchase_view")
-            self.tableModel.setFilter("UPPER(name) LIKE UPPER(" +
-                                      self.searchPurchaseLineEdit.text() +
-                                      "'||'%')")
+            filter = "UPPER(name) LIKE UPPER('{0}'||'%')"
+            filter.format(self.searchPurchaseLineEdit.text())
 
             columnsToShow += [0, 1, 2, 3]
             headers += ["ID",
@@ -214,6 +212,7 @@ class MainWindow(QMainWindow):
                         "Amount",
                         "Date"]
 
+        self.tableModel.setFilter(filter)
         self.tableView.setModel(self.tableModel)
         self.tableModel.select()
 
@@ -267,3 +266,10 @@ class MainWindow(QMainWindow):
             self.citiesWidget = CitiesWidget()
             self.citiesWidget.show()
 
+    def openUnits(self):
+        self.unitsWidget = UnitsWidget()
+        self.unitsWidget.show()
+
+    def openSettings(self):
+        self.settingsWidget = SettingsWidget()
+        self.settingsWidget.show()

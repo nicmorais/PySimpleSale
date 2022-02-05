@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QPushButton" name="newUnitBtn">
+     <property name="text">
+      <string>New</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableView" name="tableView"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>newUnitBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>newUnit()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>260</x>
+     <y>17</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>394</x>
+     <y>105</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>newUnit()</slot>
+ </slots>
+</ui>

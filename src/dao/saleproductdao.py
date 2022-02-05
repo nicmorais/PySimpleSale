@@ -7,6 +7,24 @@ class SaleProductDAO:
     def __init__(self):
         pass
 
+    def select(self, saleId):
+        query = QSqlQuery()
+        query.prepare("SELECT sale_product_id, price, quantity,"
+                      "product_id FROM sale_product "
+                      "WHERE sale_id = :saleId")
+        query.bindValue(":saleId", saleId)
+        query.exec()
+        saleProducts = []
+
+        while query.next():
+            saleProduct = SaleProduct(query.value("sale_product_id"),
+                                      query.value("price"),
+                                      query.value("quantity"),
+                                      query.value("product_id"),
+                                      saleId)
+            saleProducts.append(saleProduct)
+        return saleProducts
+
     def update(self, saleProductId):
         query = QSqlQuery()
         query.prepare("UPDATE sale_product SET quantity = :quantity, "

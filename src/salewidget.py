@@ -11,6 +11,7 @@ from src.dao.customerdao import CustomerDAO
 from src.entity.saleproduct import SaleProduct
 from src.entity.sale import Sale
 from src.noteditabledelegate import NotEditableDelegate
+from src.invoiceprinter import InvoicePrinter
 
 
 class SaleWidget(QtWidgets.QWidget):
@@ -115,6 +116,10 @@ class SaleWidget(QtWidgets.QWidget):
         customerIndex = self.customerModel.match(startIndex, 0, customerId)[0]
         self.customerCompleter.setCurrentRow(customerIndex.row())
 
+    def saveAndClose(self):
+        self.save()
+        self.close()
+
     def save(self):
         saleDao = SaleDAO()
         amount = self.getTotalAmount()
@@ -149,7 +154,6 @@ class SaleWidget(QtWidgets.QWidget):
             else:
                 self.deleteRow(row)
         self.saleUpserted.emit()
-        self.close()
 
     def insertRow(self, row):
         dao = SaleProductDAO()
@@ -256,3 +260,9 @@ class SaleWidget(QtWidgets.QWidget):
             price = self.tableModel.index(row, 3).data(QtCore.Qt.DisplayRole)
             totalItem.setData(quantity * price, QtCore.Qt.DisplayRole)
             self.tableModel.setItem(row, 4, totalItem)
+
+    def printSale(self):
+        self.save()
+        dao = SaleDAO()
+        invoicePrinter = InvoicePrinter()
+        invoicePrinter.printInvoice(dao.select(self.saleId))

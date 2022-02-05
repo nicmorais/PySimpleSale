@@ -233,6 +233,8 @@
     <addaction name="actionCountries"/>
     <addaction name="actionStates"/>
     <addaction name="actionCities"/>
+    <addaction name="actionUnits"/>
+    <addaction name="actionSettings"/>
    </widget>
    <addaction name="menuTools"/>
   </widget>
@@ -273,6 +275,16 @@
     <string>Cities</string>
    </property>
   </action>
+  <action name="actionUnits">
+   <property name="text">
+    <string>Units of Measurement</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -299,12 +311,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>96</y>
+     <x>72</x>
+     <y>95</y>
     </hint>
     <hint type="destinationlabel">
-     <x>722</x>
-     <y>96</y>
+     <x>101</x>
+     <y>95</y>
     </hint>
    </hints>
   </connection>
@@ -347,12 +359,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>96</y>
+     <x>72</x>
+     <y>95</y>
     </hint>
     <hint type="destinationlabel">
-     <x>722</x>
-     <y>96</y>
+     <x>101</x>
+     <y>95</y>
     </hint>
    </hints>
   </connection>
@@ -443,8 +455,8 @@
    <slot>setUpTableView()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>722</x>
-     <y>96</y>
+     <x>101</x>
+     <y>95</y>
     </hint>
     <hint type="destinationlabel">
      <x>770</x>
@@ -475,8 +487,8 @@
    <slot>setUpTableView()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>618</x>
-     <y>97</y>
+     <x>629</x>
+     <y>108</y>
     </hint>
     <hint type="destinationlabel">
      <x>620</x>
@@ -491,8 +503,8 @@
    <slot>setUpTableView()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>699</x>
-     <y>96</y>
+     <x>710</x>
+     <y>110</y>
     </hint>
     <hint type="destinationlabel">
      <x>719</x>
@@ -507,8 +519,8 @@
    <slot>newSupplier()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>53</x>
-     <y>98</y>
+     <x>43</x>
+     <y>95</y>
     </hint>
     <hint type="destinationlabel">
      <x>80</x>
@@ -571,8 +583,8 @@
    <slot>setUpTableView()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>751</x>
-     <y>97</y>
+     <x>101</x>
+     <y>95</y>
     </hint>
     <hint type="destinationlabel">
      <x>751</x>
@@ -596,6 +608,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionUnits</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openUnits()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSettings</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchCustomerBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setUpTableView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>770</x>
+     <y>97</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>797</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>newProduct()</slot>
@@ -610,5 +670,7 @@
   <slot>openCountries()</slot>
   <slot>openStates()</slot>
   <slot>openCities()</slot>
+  <slot>openUnits()</slot>
+  <slot>openSettings()</slot>
  </slots>
 </ui>

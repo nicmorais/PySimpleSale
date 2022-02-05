@@ -6,6 +6,9 @@ import sys
 
 if __name__ == "__main__":
     app = QApplication([])
+    app.setOrganizationName("PySimpleSale")
+    app.setApplicationName("PySimpleSale")
+    app.setApplicationDisplayName("PySimpleSale")
     widget = MainWindow()
     widget.setWindowIcon(QIcon("data/icons/logo.svg"))
     sys.exit(app.exec())

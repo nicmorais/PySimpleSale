@@ -22,10 +22,11 @@ class CountryWidget(QtWidgets.QWidget):
     def save(self):
         dao = CountryDAO()
         if self.mode == "new":
-            dao.insert(Country(self.nameLineEdit.text(),
+            dao.insert(Country(None, self.nameLineEdit.text(),
                                self.codeLineEdit.text()))
         else:
-            dao.update(Country(self.nameLineEdit.text()),
-                       self.codeLineEdit.text())
+            dao.update(Country(self.countryId,
+                               self.nameLineEdit.text()),
+                               self.codeLineEdit.text())
 
         self.countryUpserted.emit()
