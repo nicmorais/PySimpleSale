@@ -12,7 +12,7 @@ CREATE TABLE customer (customer_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT 
 
 CREATE TABLE supplier (supplier_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address_line1 TEXT, address_line2 TEXT, city_id INTEGER, email TEXT, phone_number TEXT, FOREIGN KEY(city_id) REFERENCES city(city_id))
 
-CREATE TABLE sale (sale_id INTEGER PRIMARY KEY AUTOINCREMENT, customer_id INTEGER NOT NULL, amount REAL NOT NULL, discount REAL NOT NULL, shipping REAL NOT NULL, datetime TEXT NOT NULL, FOREIGN KEY(customer_id) REFERENCES customer(customer_id)) ON DELETE RESTRICT
+CREATE TABLE sale (sale_id INTEGER PRIMARY KEY AUTOINCREMENT, customer_id INTEGER NOT NULL, amount REAL NOT NULL, discount REAL NOT NULL, shipping REAL NOT NULL, datetime TEXT NOT NULL, FOREIGN KEY(customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT)
 
 CREATE TABLE sale_product (sale_product_id INTEGER PRIMARY KEY AUTOINCREMENT, price REAL NOT NULL, quantity REAL NOT NULL, product_id INTEGER NOT NULL, sale_id INTEGER NOT NULL, FOREIGN KEY (product_id) REFERENCES product(product_id), FOREIGN KEY (sale_id) REFERENCES sale(sale_id))
 
