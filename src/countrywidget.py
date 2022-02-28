@@ -27,6 +27,7 @@ class CountryWidget(QtWidgets.QWidget):
         else:
             dao.update(Country(self.countryId,
                                self.nameLineEdit.text()),
-                               self.codeLineEdit.text())
+                       self.codeLineEdit.text())
 
         self.countryUpserted.emit()
+        self.close()

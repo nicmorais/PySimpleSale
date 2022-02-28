@@ -2,7 +2,7 @@
 
 from PyQt5.QtWidgets import QMainWindow, QMenu, QHeaderView, QMessageBox
 from PyQt5 import uic, QtCore
-from PyQt5.QtCore import QDate, pyqtSlot
+from PyQt5.QtCore import QDate
 from PyQt5.QtSql import QSqlTableModel
 from src.productwidget import ProductWidget
 from src.sqlconnection import SqlConnection
@@ -34,10 +34,12 @@ class MainWindow(QMainWindow):
 
     def newCustomer(self):
         self.customerWidget = CustomerWidget()
+        self.customerWidget.customerUpserted.connect(self.setUpTableView)
         self.customerWidget.show()
 
     def newProduct(self):
         self.productWidget = ProductWidget()
+        self.productWidget.productUpserted.connect(self.setUpTableView)
         self.productWidget.show()
 
     def newSale(self):
@@ -133,7 +135,6 @@ class MainWindow(QMainWindow):
     def doubleClickedTableView(self, modelIndex):
         self.editItem(modelIndex.row())
 
-    @pyqtSlot()
     def setUpTableView(self):
         scrollValue = self.tableView.verticalScrollBar().value()
         self.tableModel = QSqlTableModel()

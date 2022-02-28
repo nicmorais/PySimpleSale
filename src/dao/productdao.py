@@ -34,8 +34,8 @@ class ProductDAO:
     def insert(self, product):
         query = QSqlQuery()
         query.prepare("INSERT INTO product (name, description, price,"
-                      "cost, quantity, barcode, unit_id) VALUES (:name,"
-                      ":description, :price, :cost, :quantity, :barcode,"
+                      "cost, quantity, barcode, unit_id) VALUES (:name, "
+                      ":description, :price, :cost, :quantity, :barcode, "
                       ":unitId)")
         query.bindValue(":name", product.name)
         query.bindValue(":description", product.description)
